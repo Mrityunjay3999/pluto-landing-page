@@ -2312,12 +2312,8 @@
           <span class="waitlist-badge">🚀 NOW ACCEPTING EARLY ACCESS</span>
           <h2 class="waitlist-h2">Be the first to get <span class="grad-text">One Truth.</span></h2>
           <p class="waitlist-sub">Join 500+ D2C founders already on the waitlist. Get early access to Pluto — unified analytics for Shopify, Instagram, Amazon & offline in one AI-powered dashboard.</p>
-          <form class="waitlist-form" id="waitlistForm" action="https://formsubmit.co/aman@plutobi.com" method="POST" onsubmit="return handleWaitlist(event)">
-            <input type="hidden" name="_subject" value="New Pluto Waitlist Signup!">
-            <input type="hidden" name="_template" value="table">
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_next" id="formNext">
-            <input type="email" name="email" class="waitlist-input" id="waitlistEmail" placeholder="yourstore@gmail.com" required>
+          <form class="waitlist-form" id="waitlistForm" onsubmit="return handleWaitlist(event)">
+            <input type="email" class="waitlist-input" id="waitlistEmail" placeholder="yourstore@gmail.com" required>
             <button type="submit" class="waitlist-btn" id="waitlistBtn">Join Waitlist →</button>
           </form>
           <p class="waitlist-micro">No spam. No credit card. Early access only. 🇮🇳 Built for India.</p>
@@ -2513,31 +2509,43 @@
        WAITLIST
     ============================================================ */
     function handleWaitlist(e) {
+      e.preventDefault();
       var email = document.getElementById('waitlistEmail').value.trim();
       var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!re.test(email)) {
-        e.preventDefault();
         document.getElementById('waitlistEmail').style.borderColor = '#ef4444';
         return false;
       }
-      // Set the redirect-back URL to current page with success param
-      document.getElementById('formNext').value = window.location.href.split('?')[0] + '?waitlist=success';
       var btn = document.getElementById('waitlistBtn');
       btn.textContent = 'Sending...';
       btn.disabled = true;
-      return true; // allow native form POST
-    }
 
-    // Show success message if redirected back after submission
-    if (window.location.search.includes('waitlist=success')) {
-      var wBtn = document.getElementById('waitlistBtn');
-      if (wBtn) {
-        wBtn.textContent = "You're in! 🎉";
-        wBtn.style.pointerEvents = 'none';
-        wBtn.style.opacity = '.7';
-      }
-      // Clean up URL
-      window.history.replaceState({}, '', window.location.pathname);
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          access_key: '90c90bfa-bcbc-4b46-80da-c4763fea221e',
+          subject: 'New Pluto Waitlist Signup!',
+          from_name: 'Pluto Waitlist',
+          email: email,
+          message: 'New waitlist signup from: ' + email
+        })
+      }).then(function(res) { return res.json(); })
+        .then(function(data) {
+          if (data.success) {
+            btn.textContent = "You're in! 🎉";
+            btn.style.pointerEvents = 'none';
+            btn.style.opacity = '.7';
+            document.getElementById('waitlistEmail').value = '';
+          } else {
+            btn.textContent = 'Try again';
+            btn.disabled = false;
+          }
+        }).catch(function() {
+          btn.textContent = 'Try again';
+          btn.disabled = false;
+        });
+      return false;
     }
 
     /* ============================================================
