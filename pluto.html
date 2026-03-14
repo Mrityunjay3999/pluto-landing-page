@@ -870,7 +870,10 @@
       .hsn-connector { display: none; }
       .brands-header { padding: 60px 24px 44px; }
       .brands-header-in { flex-direction: column; gap: 20px; }
-      .brands-scroll-area { padding: 0 24px 60px; }
+      .brands-scroll-area { padding: 0 24px 60px; overflow-x: visible; }
+      .brands-cards-track { overflow-x: auto; -webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory; padding-bottom: 8px; }
+      .brands-cards-track::-webkit-scrollbar { display: none; }
+      .brand-card-small { scroll-snap-align: start; }
       .brand-card-small.active { width: 380px; }
     }
     @media(max-width:768px) {
@@ -887,8 +890,10 @@
       .hero-in { padding: 48px 24px; }
       #problem,#how,#ai,#transform,#kpis,#vid,#features,#testimonials,#team,#contact,#brands { padding-top: 72px; padding-bottom: 72px; }
       .how-header { min-height: 80vh; }
-      .brand-card-small { width: 260px; }
-      .brand-card-small.active { width: 300px; }
+      .brand-card-small { width: 280px; }
+      .brand-card-small, .brand-card-small.active { width: 280px; }
+      .bcs-expand { display: block !important; }
+      .brands-nav-btns { display: none; }
       .dm-kpis { grid-template-columns: repeat(2,1fr); }
     }
     @media(max-width:480px) {
@@ -901,7 +906,7 @@
       .brands-header { padding: 48px 16px 32px; }
       .brands-scroll-area { padding: 0 16px 48px; }
       .dm-kpis { grid-template-columns: 1fr 1fr; }
-      .brand-card-small.active { width: 260px; }
+      .brand-card-small, .brand-card-small.active { width: 260px; }
     }
     @media(max-width:360px) {
       .dm-kpis { grid-template-columns: 1fr; }
