@@ -622,9 +622,9 @@
     .bnav-btn { width: 52px; height: 52px; border-radius: 14px; background: #222; border: 1px solid #333; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all .2s; color: #999; }
     .bnav-btn:hover:not(:disabled) { background: #333; color: #fff; }
     .bnav-btn:disabled { opacity: .35; cursor: not-allowed; }
-    .brands-scroll-area { padding: 0 60px 80px; position: relative; overflow-x: auto; }
+    .brands-scroll-area { padding: 0 60px 80px; position: relative; overflow-x: auto; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
     .brands-scroll-area::-webkit-scrollbar { display: none; }
-    .brands-cards-track { display: flex; gap: 16px; overflow: hidden; position: relative; }
+    .brands-cards-track { display: flex; gap: 16px; position: relative; width: max-content; }
     .brand-card-small { flex-shrink: 0; width: 280px; background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 20px; padding: 28px; cursor: pointer; transition: all .4s cubic-bezier(.4,0,.2,1); overflow: hidden; position: relative; }
     .brand-card-small.active { width: 520px; background: #1e1e1e; border-color: #333; }
     .bcs-top { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
@@ -2658,10 +2658,14 @@
       brandCards.forEach((c, idx) => c.classList.toggle('active', idx === i));
       document.getElementById('brandPrev').disabled = i === 0;
       document.getElementById('brandNext').disabled = i === brandCards.length - 1;
-      const card = brandCards[i];
-      const trackLeft = brandTrack.getBoundingClientRect().left;
-      const cardLeft = card.getBoundingClientRect().left;
-      brandTrack.parentElement.scrollLeft += (cardLeft - trackLeft - 40);
+      var scrollArea = brandTrack.parentElement;
+      var card = brandCards[i];
+      setTimeout(function() {
+        var areaRect = scrollArea.getBoundingClientRect();
+        var cardRect = card.getBoundingClientRect();
+        var offset = cardRect.left - areaRect.left + scrollArea.scrollLeft - 40;
+        scrollArea.scrollTo({ left: offset, behavior: 'smooth' });
+      }, 50);
     }
     brandCards.forEach((card, i) => card.addEventListener('click', () => activateBrand(i)));
     function brandNav(dir) {
