@@ -725,6 +725,13 @@
       .founder-badge { display: none; }
       .founder-stats { grid-template-columns: repeat(2,1fr); }
       .founder-stats > div:nth-child(3) { display: none; }
+      .founder-left { padding: 0 16px; }
+    }
+    @media (max-width: 600px) {
+      .founder-stats { grid-template-columns: 1fr; gap: 12px; }
+      .founder-overlay-card { padding: 14px 16px; }
+      .founder-overlay-name { font-size: 15px; }
+      .founder-cta-btn { padding: 12px 22px; font-size: 14px; }
     }
 
     /* =========================================================
@@ -879,6 +886,14 @@
       .vid-stats { gap: 22px; flex-wrap: wrap; }
       .brands-header { padding: 48px 16px 32px; }
       .brands-scroll-area { padding: 0 16px 48px; }
+      .dm-kpis { grid-template-columns: 1fr 1fr; }
+      .brand-card-small.active { width: 260px; }
+    }
+    @media(max-width:360px) {
+      .dm-kpis { grid-template-columns: 1fr; }
+      .brand-card-small { width: 220px; }
+      .brand-card-small.active { width: 240px; }
+      .waitlist-btn { padding: 14px 20px; font-size: 13px; }
     }
   </style>
 </head>
